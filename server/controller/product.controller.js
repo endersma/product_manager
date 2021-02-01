@@ -4,7 +4,7 @@ const Product = require('../model/product.model');
 
 module.exports = {
     getAll: (req, res) => {
-        Product.find()
+        Product.find().sort()
             .then((allProducts) => {
                 res.json(allProducts);
             })
@@ -26,5 +26,21 @@ module.exports = {
                 res.json(oneProduct);
             })
             .catch((err) => console.log(res.json(err)));
+    },
+
+    editOne: (req, res) => {
+        Product.findByIdAndUpdate(req.params.id, req.body,{new: true})
+            .then((updateProduct) => {
+                res.json(updateProduct);
+            })
+            .catch((err) => res.json(err));
+    },
+
+    delete: (req, res) => {
+        Product.findByIdAndDelete(req.params.id)
+            .then((deleteProduct) =>{
+                res.json(deleteProduct);
+            })
+            .catch((err) => res.json(err));
     },
 }
